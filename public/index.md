@@ -12,7 +12,7 @@ Según sus creadores, es una de las principales características de Git pero... 
 
 --
 
-MENTIMETER - ¿QUÉ TE PARECE QUE ES?
+<div style='position: relative; padding-bottom: 56.25%; padding-top: 35px; height: 0; overflow: hidden;'><iframe sandbox='allow-scripts allow-same-origin allow-presentation' allowfullscreen='true' allowtransparency='true' frameborder='0' height='315' src='https://www.mentimeter.com/app/presentation/dee0c4b4e6f6144719d5f7e720c1703d/b303f1b3f7a7/embed' style='position: absolute; top: 0; left: 0; width: 100%; height: 100%;' width='420'></iframe></div>
 
 --
 
@@ -35,6 +35,8 @@ no changes added to commit (use "git add" and/or "git commit -a")
 
 Por defecto, esa rama se llama `master` o `main`.
 <small>(depende de la versión de Git y la configuración de nuestro sistema)</small>
+
+<!-- .element: class="fragment" -->
 
 --
 
@@ -62,7 +64,7 @@ El solo hecho de **trabajar en equipo** de manera asincrónica nos hará romper 
 
 --
 
-Esta capacidad de poder "deslinearizar" el desarrollo es muy poderosa, y nos da a pie a diferentes flujos que nos permiten **trabajar en paralelo**.
+Esta capacidad de poder "deslinearizar" el desarrollo es muy poderosa, y nos da a pie a diferentes flujos que nos permiten **trabajar en paralelo** sin afectar al resto.
 
 ![](img/feature-branches.png)
 
@@ -70,18 +72,22 @@ Esta capacidad de poder "deslinearizar" el desarrollo es muy poderosa, y nos da 
 
 ## ¡Hola ramas! 🎋
 
-Git nos ofrece una herramienta para **bifurcar intencionalmente** el código, las famosas **ramas** o _branches_.
+Además de esta forma "casual" de generar bifurcaciones, Git nos ofrece una herramienta para **bifurcar intencionalmente** el código.
+
+Estas son las famosas **ramas** o _branches_.
 
 --
 
-Para **crearlas**, es necesario darles un nombre:
+Para **crearlas**, simplemente hay que darles un nombre:
 
 ```shell
 $ git checkout -b nueva-rama
 Switched to a new branch 'nueva-rama'
 ```
 
-Y una vez creadas, es posible **moverse** entre ellas es igual de sencillo:
+Luego, es posible **moverse** entre ellas usando _casi_ el mismo comando:
+
+<!-- .element: class="fragment" -->
 
 ```shell
 $ git checkout main
@@ -90,6 +96,13 @@ Switched to branch 'main'
 $ git checkout nueva-rama
 Switched to branch 'nueva-rama'
 ```
+
+<!-- .element: class="fragment" -->
+
+<small>(Nótese que en el segundo ejemplo omitimos el **`-b`**,
+<br>necesario cuando queremos **crear** la rama)</small>
+
+<!-- .element: class="fragment" -->
 
 --
 
@@ -101,7 +114,7 @@ Incluso son tan usadas que la mayoría de los editores ofrecen formas simples de
 
 Al crear una rama, estamos creando una **"nueva versión"** del código, donde podremos programar **sin afectar a la versión principal**.
 
-Esto nos permite trabajar con la **tranquilidad** de no romper el proyecto - al menos hasta que nuestra rama se integre. :sweat_smile:
+Esto nos permite trabajar con la **tranquilidad** de no romper el proyecto - al menos hasta que nuestra rama se integre. 😅
 
 --
 
@@ -129,6 +142,9 @@ git checkout -b nombre-rama
 
 # Pushear la rama actual
 git push
+
+# Cambiar de rama
+git checkout otra-rama
 ```
 
 ===
@@ -237,17 +253,31 @@ fun total() = sumaProductos() + recargoMercadoPago()
 
 ===
 
-## GitHub flow
+## Flujos de trabajo
 
-TODO: explicar que este es el flujo que contamos
+Como dijimos, hay muchas formas posibles de trabajar con ramas y todas tienen **ventajas** y **desventajas**.
+
+Será tarea del equipo diseñar el flujo de trabajo que mejor se adecúe a su realidad.
 
 --
+
+Existen varios flujos de trabajo _conocidos_, entre los que destacan tres: **Git flow**, **GitHub flow** y **Trunk-based development**.
+
+Siempre sugiero ir por lo más **simple** y luego complejizar si el escenario lo requiere.
+
+--
+
+Entre los mencionados, el que más he utilizado fue el **GitHub flow**, con pequeñas adaptaciones según los requerimientos no funcionales del sistema: cantidad y tipo de **ambientes**, frecuencia de **despliegue**, política de **revisión**, etc.
+
+--
+
+El flujo se basa en varias reglas que podemos resumir en la más importante: en todo momento, **lo que está en la rama principal es publicable**.
 
 ![](img/github-flow.png)
 
 ===
 
-MENTIMETER - PREGUNTAS
+<div style='position: relative; padding-bottom: 56.25%; padding-top: 35px; height: 0; overflow: hidden;'><iframe sandbox='allow-scripts allow-same-origin allow-presentation' allowfullscreen='true' allowtransparency='true' frameborder='0' height='315' src='https://www.mentimeter.com/app/presentation/8b840352810ccc86fceed227b02d059a/9968195f9eeb/embed' style='position: absolute; top: 0; left: 0; width: 100%; height: 100%;' width='420'></iframe></div>
 
 --
 
