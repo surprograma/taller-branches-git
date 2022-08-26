@@ -1,326 +1,257 @@
-# Trabajo colaborativo en Git
+## Trabajo colaborativo en Git <!-- .element style="text-transform: uppercase" -->
+
+#### Flujos de trabajo con ramas o _branches_
 
 ![Logo](img/perfil.png)
 
 ===
 
-## ¿Qué es Git?
+## Desarrollo **no** lineal
 
-![](img/git-logo.png) <!-- .element height="200px" -->
-
---
-
-Git es _solamente_ un programa para controlar **versiones de archivos**.
-
-Resuelve el típico problema que tenemos al trabajar en equipo sobre un documento: **¿cuál es la última versión?**
+Según sus creadores, es una de las principales características de Git pero... ¿qué es? 🤔
 
 --
 
-Principales características:
-
-- **Rápido**
-- Diseño **simple**
-- Fuerte soporte para **desarrollo no lineal** (cientas de ramas en paralelo)
-- Completamente **distribuido**
-- Capaz de manejar **grandes proyectos** de forma eficiente (en velocidad y almacenamiento)
+MENTIMETER - ¿QUÉ TE PARECE QUE ES?
 
 --
 
-### Flujo básico de Git
-
-![](img/git-flujo.png)
+Cuando recién arrancamos con Git, probablemente ni siquiera nos demos cuenta de que siempre estamos trabajando sobre una **rama** (o _branch_ en inglés).
 
 --
 
-Pero, ¿qué pasa cuando trabajamos con otrxs sobre un **mismo** proyecto?
+```shell [|2]
+$ git status
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   package-lock.json
+        modified:   public/img/merge.png
+        modified:   public/index.md
 
-👨‍💻 👩‍💻 💻 🧑‍💻 👩‍💻
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+Por defecto, esa rama se llama `master` o `main`.
+<small>(depende de la versión de Git y la configuración de nuestro sistema)</small>
+
+--
+
+Al trabajar de esa manera, nuestro árbol de _commits_ será siempre **lineal**:
+
+![](img/commits-main.png)
+
+--
+
+Excepto que estemos trabajando con alguien más, en cuyo caso los caminos se bifurcarán en algún momento...
+
+![](img/main-bifurcacion.png)
+
+--
+
+![](img/merge.png)
+
+...para luego volver a unirse en un _merge_.
+
+--
+
+El solo hecho de **trabajar en equipo** de manera asincrónica nos hará romper la **linealidad**: en algún momento van a **coexistir versiones diferentes** del código.
+
+![](img/spiderman-meme.gif)
+
+--
+
+Esta capacidad de poder "deslinearizar" el desarrollo es muy poderosa, y nos da a pie a diferentes flujos que nos permiten **trabajar en paralelo**.
+
+![](img/feature-branches.png)
 
 ===
 
-## Trabajo colaborativo
+## ¡Hola ramas! 🎋
 
-Para trabajar en equipo necesitamos generar **acuerdos** mínimos sobre la forma de trabajo.
-
---
-
-- ¿Cómo nos dividimos las tareas?
-- ¿Qué convenciones utilizamos?
-- ¿Cada cuánto _integramos_ el código?
-- ¿Subimos código que no funciona?
-- ¿Qué cosas testeamos?
-
-Y un largo etcétera, que excede este taller...
+Git nos ofrece una herramienta para **bifurcar intencionalmente** el código, las famosas **ramas** o _branches_.
 
 --
 
-Aunque muchas veces damos por sentado o minimizamos estos acuerdos, resultan ser incluso más importantes que cuestiones tecnológicas que podamos discutir posteriormente.
-
-No hay herramienta que nos vaya a funcionar si no tenemos una **buena comunicación**. 🙊 🙉
-
-<!-- .element: class="fragment" -->
-
-===
-
-## Aparecen los conflictos 😬
-
-Tarde o temprano, llegará un momento en que dos personas meterán la mano sobre el mismo archivo...
-
-Dando paso así a los tan temidos **conflictos de Git**.
-
---
-
-<div style='position: relative; padding-bottom: 56.25%; padding-top: 35px; height: 0; overflow: hidden;'><iframe sandbox='allow-scripts allow-same-origin allow-presentation' allowfullscreen='true' allowtransparency='true' frameborder='0' height='315' src='https://www.mentimeter.com/app/presentation/3086d7d181a0f79217a93cfa6da45182/c023dc44ff59/embed' style='position: absolute; top: 0; left: 0; width: 100%; height: 100%;' width='420'></iframe></div>
-
---
-
-Cuando estamos trabajando con alguien más y queremos integrar nuestros cambios, pueden darse tres situaciones:
-
-1. Que hayamos tocado **diferentes archivos**. 👍
-<!-- .element: class="fragment" -->
-
-1. Que hayamos tocado los **mismos archivos**, pero en **distintos lugares**. 👍
-<!-- .element: class="fragment" -->
-
-1. Que hayamos tocado los **mismos archivos**, en los **mismos lugares**. 😱
-<!-- .element: class="fragment" -->
-
---
-
-Git puede lidiar **automáticamente** con las dos primeras situaciones, pero necesita intervención humana cuando ocurre la tercera.
-
-A eso se lo conoce como **conflicto**, y por consola nos lo reporta así:
+Para **crearlas**, es necesario darles un nombre:
 
 ```shell
-Auto-merging README.md
-CONFLICT (content): Merge conflict in README.md
+$ git checkout -b nueva-rama
+Switched to a new branch 'nueva-rama'
 ```
 
-===
+Y una vez creadas, es posible **moverse** entre ellas es igual de sencillo:
 
-## Ocasionemos un conflicto
+```shell
+$ git checkout main
+Switched to branch 'main'
 
-Partiendo de este archivo:
-
-```md []
-🌐 ¡Hola mundo!
-
-👋 Me llamo _COMPLETAR_
-🗺️ y actualmente estoy en _COMPLETAR_.
-
-📆 En los próximos días, me gustaría _COMPLETAR_.
+$ git checkout nueva-rama
+Switched to branch 'nueva-rama'
 ```
 
 --
 
-Vamos a asumir que Pancho y Delfina están trabajando, sin comunicarse entre sí, y realizan modificaciones.
+Incluso son tan usadas que la mayoría de los editores ofrecen formas simples de navegarlas y crearlas:
 
-```md []
-🌐 ¡Hola gente!
-
-👋 Me llamo Pancho
-🗺️ y actualmente estoy en Federación, Entre Ríos.
-
-📆 En los próximos días, me gustaría _COMPLETAR_.
-```
-
-```md []
-🌐 ¡Hola mundo!
-
-👋 Me llamo Delfina
-🗺️ y actualmente estoy en Paso de los Libres, Corrientes.
-
-📆 En los próximos días, me gustaría volver a Entre Ríos.
-```
+![](img/vscode-ramas.gif)
 
 --
 
-```diff
--🌐 ¡Hola mundo!
-+🌐 ¡Hola gente!
+Al crear una rama, estamos creando una **"nueva versión"** del código, donde podremos programar **sin afectar a la versión principal**.
 
--👋 Me llamo _COMPLETAR_
--🗺️ y actualmente estoy en _COMPLETAR_.
-+👋 Me llamo Pancho
-+🗺️ y actualmente estoy en Federación, Entre Ríos.
-
- 📆 En los próximos días, me gustaría _COMPLETAR_.
-```
-
-¿Qué creen que ocurrirá al intentar hacer un _merge_?
-
-<!-- .element: class="fragment" -->
-
-```diff
- 🌐 ¡Hola mundo!
-
--👋 Me llamo _COMPLETAR_
--🗺️ y actualmente estoy en _COMPLETAR_.
-+👋 Me llamo Delfina
-+🗺️ y actualmente estoy en Paso de los Libres, Corrientes.
-
--📆 En los próximos días, me gustaría _COMPLETAR_.
-+📆 En los próximos días, me gustaría volver a Entre Ríos.
-```
+Esto nos permite trabajar con la **tranquilidad** de no romper el proyecto - al menos hasta que nuestra rama se integre. :sweat_smile:
 
 --
 
-¡Bingo! 🎉
+Y sí, podemos crear tantas como necesitemos.
 
-Va a ocurrir un **conflicto**, específicamente en las líneas 3 y 4, que fue las que ambxs modificaron.
-
-El conflicto lo tendrá la última persona que integre los cambios, Pancho en este ejemplo.
-
-===
-
-## ¿Cómo se ve un conflicto?
-
-Lo que Git hace es agregar unas **marcas** en el archivo, que nos indican **dónde ocurrió el conflicto**.
-
-Luego, hay varios programas que muestran eso de distintas maneras.
-
---
-
-En texto plano:
-
-```text
-🌐 ¡Hola gente!
-
-<<<<<<< HEAD
-👋 Me llamo Pancho
-🗺️ y actualmente estoy en Federación, Entre Ríos.
-=======
-👋 Me llamo Delfina
-🗺️ y actualmente estoy en Paso de los Libres, Corrientes.
->>>>>>> delfina
-
-📆 En los próximos días, me gustaría volver a Entre Ríos.
-```
-
---
-
-Con el comando `git diff`:
-
-```diff
-index 977e95a,2aef011..0000000
---- a/README.md
-+++ b/README.md
-@@@ -1,6 -1,6 +1,11 @@@
--🌐 ¡Hola mundo!
-+🌐 ¡Hola gente!
-
-++<<<<<<< HEAD
-+👋 Me llamo Pancho
-+🗺️ y actualmente estoy en Federación, Entre Ríos.
-++=======
-+ 👋 Me llamo Delfina
-+ 🗺️ y actualmente estoy en Corrientes.
-++>>>>>>> delfina
-
-- 📆 En los próximos días, me gustaría _COMPLETAR_.
-+ 📆 En los próximos días, me gustaría volver a Entre Ríos.
-```
-
-<!-- .element: class="fullscreen" -->
-
-<small>(Nótese que nos muestra también las partes que pudo integrar automáticamente.)</small>
-
---
-
-Con un editor como el VScode:
-
-![](img/conflicto-vscode.png)
-
---
-
-Con el VScode también, pero en modo `Compare`:
-
-![](img/compare-vscode.png)
-
-===
-
-## 🦾 Manos a la obra
-
-Provoquen ustedes un conflicto, para ver cómo es.
-
-Trabajando sobre el archivo `README.md`, hagan modificaciones y luego súbanlas al repositorio.
+![](img/muchas-branches.png)
 
 ===
 
 ## 👀 Demostración
 
-Vemos cómo resolverlo usando la consola.
+Creemos y publiquemos una rama desde la consola.
 
 ===
 
-## Estrategias para evitarlos
+## 🦾 Manos a la obra
 
-Si bien siempre aparecerán conflictos, podemos hacer varias cosas para **minimizar la probabilidad** de que ocurran:
-
-1. Comunicarnos y dividir tareas 👍
-<!-- .element: class="fragment" -->
-
-1. Integrar rápido 👍
-<!-- .element: class="fragment" -->
-
-1. "Bloquear" archivos 🤮
-<!-- .element: class="fragment" -->
-
---
-
-De todas formas, aprender a resolver conflictos **es necesario** para el trabajo en, prácticamente, cualquier proyecto de programación.
-
-===
-
-## ¿Cómo resolverlos?
-
-Cuando no queda otra, hay ciertas cosas que pueden ayudarnos a que la tarea sea más amena:
-
-1. Hablar con la o las personas que modificaron el mismo archivo.
-<!-- .element: class="fragment" -->
-
-1. Usar buenas herramientas.
-<!-- .element: class="fragment" -->
-
-1. Tener una buena batería de tests automatizados.
-<!-- .element: class="fragment" -->
-
---
-
-En esencia, lo que hay que hacer es:
-
-1. Dejar el archivo como queremos que quede.
-1. Agregar el archivo y hacer un _commit_:
+1. Creen una rama.
+2. Cambien algo en el archivo `README.md` y hagan un _commit_.
+3. Suban sus cambios al repositorio (_push_).
 
 ```bash
-git add README.md # o directamente, git add .
-git commit
-```
+# Crear rama
+git checkout -b nombre-rama
 
-En este caso no es necesario (ni recomendable) escribir el mensaje del commit. Git lo hará por nosotrxs.
+# Pushear la rama actual
+git push
+```
 
 ===
 
-## 🦾 Manos a la obra
+## Usando las ramas
 
-Elijan quién es A y quién es B. Hagan lo que sigue, **en orden** y **hablando entre ustedes**.
+Si bien Git nos permite hacer cualquier cosa con las ramas, existen varias **convenciones** sobre cómo utilizarlas.
 
-|             |                                                                                              |
-| ----------- | -------------------------------------------------------------------------------------------- |
-| **Primero** | A edita el archivo A.md y sube. <br/> B edita el archivo A.md y sube, resuelve el conflicto. |
-| **Después** | B edita el archivo B.md y sube. <br/> A edita el archivo B.md y sube, resuelve el conflicto. |
+Cuáles usar dependerá, como siempre, de los **acuerdos** que hagamos dentro del equipo. 🙉 🙊
+
+--
+
+Algunas orientaciones generales:
+
+- Usar nombres que **revelen su sentido**:
+  - 👍 `nueva-pagina-login` / `error-suma-total` / `actualizacion-dependencias`
+  - 👎 `fede` / `mi-branch` / `probando`
+- **Integrar** lo antes posible.
+- Hacer _pull_ regularmente de la **rama principal**.
+
+--
+
+Independientemente de cómo trabajemos, vamos a poder distinguir dos tipos de ramas:
+
+- **principales:** como `main`, son ramas que perduran en el tiempo y desde donde generalmente partimos para crear otras.
+- **secundarias o efímeras:** las creamos para resolver algo, y una vez terminadas se integran a una principal (o mueren en el camino).
+
+===
+
+## Volver a la base
+
+Para que todo esto tenga sentido, tiene que haber una forma de "volver" a la rama principal, **integrando** los cambios que se hicieron en una rama secundaria.
+
+Esto en Git se logra haciendo un _merge_, tal como hacíamos cuando ocurría un conflicto.
+
+--
+
+Si bien se puede hacer por consola, lo más simple hoy en día es usar los **_pull requests_** que nos ofrece GitHub.
+
+Al crearlos, estamos **comunicando al equipo** que queremos que nuestra rama se **integre**.
+
+--
+
+Desde la interfaz de un _pull request_ (o simplemente, _PR_), podemos:
+
+- Ver los **cambios**.
+- Ejecutar **validaciones automáticas**.
+- Pedir **revisión** a otra/s persona/s.
+- Iniciar **conversaciones** directamente sobre el código.
+- **Sugerir** modificaciones.
+- Etc, etc, etc...
 
 ===
 
 ## 👀 Demostración
 
-Vemos cómo resolverlo usando el VScode.
+Hagamos un _pull request_.
 
 ===
 
-<div style='position: relative; padding-bottom: 56.25%; padding-top: 35px; height: 0; overflow: hidden;'><iframe sandbox='allow-scripts allow-same-origin allow-presentation' allowfullscreen='true' allowtransparency='true' frameborder='0' height='315' src='https://www.mentimeter.com/app/presentation/18d1d55422cda76da3554d6cce326516/8e35d5f6bad4/embed' style='position: absolute; top: 0; left: 0; width: 100%; height: 100%;' width='420'></iframe></div>
+## 🦾 Manos a la obra
+
+Decidan quíen es A y quién es B, y luego:
+
+- A **crea** un _pull request_.
+- B le solicita cambios y **rechaza** el pull request.
+- A **corrige** lo pedido, _commitea_ y _pushea_ los cambios.
+- B hace el **_merge_** del _PR_.
+
+===
+
+## ¿Se acabaron los conflictos?
+
+Claro que no. 😃
+
+Si bien el uso de ramas ordena muchísimo el trabajo, **no elimina** la posibilidad de que ocurran conflictos.
 
 --
+
+Veamos un ejemplo:
+
+> <small>En un sistema de una juguetería, Alicia está trabajando en una rama `descuentos-mes-infancias` y Beto está trabajando en otra `recargo-pago-mercadopago`.</small>
+>
+> <small>Ambas ramas partieron del mismo commit de `main` y terminan modificando el mismo archivo:</small>
+
+```kotlin
+// Alicia
+fun total() = sumaProductos() - descuentoMesInfancias()
+
+// Beto
+fun total() = sumaProductos() + recargoMercadoPago()
+```
+
+**¿Qué pasará cuando hagan el _pull request_?**
+
+<!-- .element: class="fragment" -->
+
+===
+
+## 🦾 Manos a la obra
+
+1. Partiendo de `main`, crear una rama y modificar el mismo archivo que la otra persona.
+2. Crear el _pull request_.
+3. Mergear uno de los dos y ver que el otro da conflictos.
+4. Solucionarlos y mergear el que quedaba.
+
+===
+
+## GitHub flow
+
+TODO: explicar que este es el flujo que contamos
+
+--
+
+![](img/github-flow.png)
+
+===
+
+MENTIMETER - PREGUNTAS
+
+--
+
+## ¡Gracias!
 
 <div class="red-social">
   <i class="fab fa-youtube color"></i>
