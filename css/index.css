@@ -1,0 +1,28 @@
+.fa-telegram-plane.color {
+  color: #2ca0db;
+}
+
+.fa-instagram.color {
+  color: #c83085;
+}
+
+.fa-youtube.color {
+  color: #f7021a;
+}
+
+.reveal pre {
+  width: 100% !important;
+}
+
+.fullscreen code {
+  max-height: fit-content !important;
+}
+
+h1 {
+  font-size: 2.8em !important;
+  text-transform: uppercase !important;
+}
+
+strong {
+  color: #e69055 !important;
+}
